@@ -19,7 +19,7 @@ type (
 )
 
 func indexHandler (w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("static/index.html")
+	t, err := template.ParseFiles("templates/index.html")
 	if err != nil {
 		log.Println("Error parse index: ", err.Error())
 	}
@@ -57,8 +57,8 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 func main() {
 	fs := http.FileServer(http.Dir("static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
-	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/ws", serveWs)
+	http.HandleFunc("/", indexHandler)
 
 	err := http.ListenAndServe(":9090", nil)
 
